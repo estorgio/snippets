@@ -88,12 +88,12 @@ This is an `inline` code.
 - Enable syntax highlighting by specifying the language
     - Code:
     
-        ```javascript
-        function sayHello(name) {
-          console.log(`Welcome, ${name}`);
-        }
-        sayHello('John');
-        ```
+          ```javascript
+          function sayHello(name) {
+            console.log(`Welcome, ${name}`);
+          }
+          sayHello('John');
+          ```
 
     - Preview:
         ```javascript
