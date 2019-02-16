@@ -74,29 +74,34 @@ This is an `inline` code.
 [[Go back]](#table-of-contents)
 
 ## Block Code
-Use triple backticks.
-```
-'''
-console.log('Hello world');
-'''
-```
-You can also specify language on the top to enable syntax highlighting.
-### Code:
-```
-'''javascript
-function sayHello(name) {
-  console.log(`Welcome, ${name}`);
-}
-sayHello('John');
-'''
-```
-### Preview:
-```javascript
-function sayHello(name) {
-  console.log(`Welcome, ${name}`);
-}
-sayHello('John');
-```
+- Use triple backticks.
+
+    ```
+    console.log('Hello world');
+    ```
+- Indent by four spaces.
+
+    ```
+        console.log('Hello world');
+    ```
+
+- Enable syntax highlighting by specifying the language
+    - Code:
+    
+        ```javascript
+        function sayHello(name) {
+          console.log(`Welcome, ${name}`);
+        }
+        sayHello('John');
+        ```
+
+    - Preview:
+        ```javascript
+        function sayHello(name) {
+          console.log(`Welcome, ${name}`);
+        }
+        sayHello('John');
+        ```
 [[Go back]](#table-of-contents)
 
 ## Unordered List
@@ -192,3 +197,4 @@ This *italic text* is not escaped.
 This \*italic text\* is escaped.
 
 [[Go back]](#table-of-contents)
+
