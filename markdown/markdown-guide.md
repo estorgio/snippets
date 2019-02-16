@@ -37,20 +37,20 @@ This document serves as a quick guide to Markdown syntax.
 [[Go back]](#table-of-contents)
 
 ## Text Formatting
-1. **Bold** - (double asterisks or underscores)
-```
-This is **bold**.
-This is __bold__.
-```
-2. *Italic* - (single asterisk or underscore)
-```
-This is *italic*.
-This is also _italic_.
-```
-3. ~~Strikethrough~~ - (double tilde)
-```
-This is a ~~strikethrough~~.
-```
+- **Bold** - (double asterisks or underscores)
+    ```
+    This is **bold**.
+    This is __bold__.
+    ```
+- *Italic* - (single asterisk or underscore)
+    ```
+    This is *italic*.
+    This is also _italic_.
+    ```
+- ~~Strikethrough~~ - (double tilde)
+    ```
+    This is a ~~strikethrough~~.
+    ```
 [[Go back]](#table-of-contents)
 
 ## Hyperlink
