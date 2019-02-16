@@ -17,7 +17,6 @@ This document serves as a quick guide to Markdown syntax.
 - [Table](#table)
 - [Task List](#task-list)
 - [Escaping characters](#escaping-characters)
----
 
 ## Heading
 ```
@@ -30,16 +29,12 @@ This document serves as a quick guide to Markdown syntax.
 ```
 [[Go back]](#table-of-contents)
 
----
-
 ## Blockquote
 > This is a quoted paragraph.
 ```
 > This is a quoted paragraph.
 ```
 [[Go back]](#table-of-contents)
-
----
 
 ## Text Formatting
 1. **Bold** - (double asterisks or underscores)
@@ -58,8 +53,6 @@ This is a ~~strikethrough~~.
 ```
 [[Go back]](#table-of-contents)
 
----
-
 ## Hyperlink
 This is a [link](https://google.com).
 ```
@@ -67,15 +60,11 @@ This is a [link](https://google.com).
 ```
 [[Go back]](#table-of-contents)
 
----
-
 ## Image
 ```
 ![alt text](image-url "tooltip")
 ```
 [[Go back]](#table-of-contents)
-
----
 
 ## Inline Code
 This is an `inline` code.
@@ -83,8 +72,6 @@ This is an `inline` code.
 This is an `inline` code.
 ```
 [[Go back]](#table-of-contents)
-
----
 
 ## Block Code
 Use triple backticks.
@@ -110,10 +97,7 @@ function sayHello(name) {
 }
 sayHello('John');
 ```
-
 [[Go back]](#table-of-contents)
-
----
 
 ## Unordered List
 Use dashes or asterisks for each item.
@@ -142,8 +126,6 @@ Use dashes or asterisks for each item.
 
 [[Go back]](#table-of-contents)
 
----
-
 ## Ordered List
 ### Code:
 ```
@@ -158,8 +140,6 @@ Use dashes or asterisks for each item.
 
 [[Go back]](#table-of-contents)
 
----
-
 ## Horizontal Rule
 Triple dash or underscore.
 ```
@@ -167,8 +147,6 @@ Triple dash or underscore.
 ___
 ```
 [[Go back]](#table-of-contents)
-
----
 
 ## Table
 ### Code:
@@ -186,8 +164,6 @@ ___
 
 [[Go back]](#table-of-contents)
 
----
-
 ## Task List
 Used to show a list of tasks with their completion status.
 ### Code:
@@ -202,8 +178,6 @@ Used to show a list of tasks with their completion status.
 * [ ] Third task
 
 [[Go back]](#table-of-contents)
-
----
 
 ## Escaping characters
 Use backslash to escape markdown-specific characters.
