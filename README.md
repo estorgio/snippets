@@ -3,6 +3,7 @@ This repository contains a collection of syntax guides and code snippets that I 
 
 ## Table of Contents
 - [Markdown](markdown/markdown-guide.md)
+- [Git](git/git.md)
 
 ## Disclaimer
 This repository is intended for personal use only.
