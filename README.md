@@ -5,6 +5,7 @@ This repository contains a collection of syntax guides and code snippets that I 
 - [Markdown](markdown/markdown-guide.md)
 - [Git](git/git.md)
 - [NPM](npm/npm.md)
+- [Heroku](heroku/heroku.md)
 
 ## Disclaimer
 This repository is intended for personal use only.
