@@ -5,6 +5,24 @@
 ## Table of Contents
 - [Getting Started](#getting-started)
 - [Basic Commands](#basic-commands)
+  - [Initialize git repository](#initialize-git-repository)
+  - [Get current status](#get-current-status)
+  - [Add files to staging](#add-files-to-staging)
+  - [Remove files from staging](#remove-files-from-staging)
+  - [Commit files in staging](#commit-files-in-staging)
+  - [Download commits from remote repository](#download-commits-from-remote-repository)
+  - [Upload commits to remote repository](#upload-commits-to-remote-repository)
+  - [Make a new branch and switch to it](#make-a-new-branch-and-switch-to-it)
+  - [List all existing branches](#list-all-existing-branches)
+  - [Delete branch](#delete-branch)
+  - [Push branch to origin on first create](#push-branch-to-origin-on-first-create)
+  - [Merge a branch to another](#merge-a-branch-to-another)
+  - [Resolve merge conflicts](#resolve-merge-conflicts)
+  - [Abort merge](#abort-merge)
+  - [Discard uncommited changes in working directory](#discard-uncommited-changes-in-working-directory)
+  - [List all commits in current branch](#list-all-commits-in-current-branch)
+  - [Add tags](#add-tags)
+  - [Remove last commit](#remove-last-commit)
 
 
 ## Getting Started
@@ -67,6 +85,103 @@ Steps on how to creating a new git repository.
 [[Go back]](#table-of-contents)
 
 ## Basic Commands
-TODO: Add Basic Commands
+Here are some of the commonly used commands for git.
 
+### Initialize git repository
+```bash
+git init
+```
+[[Go back]](#table-of-contents)
+### Get current status
+```bash
+git status
+```
+[[Go back]](#table-of-contents)
+### Add files to staging
+```bash
+git add .
+git add <filename>
+```
+[[Go back]](#table-of-contents)
+### Remove files from staging
+```bash
+git reset HEAD .
+git reset HEAD <filename>
+```
+[[Go back]](#table-of-contents)
+### Commit files in staging
+```bash
+git commit -m "<message>"
+```
+[[Go back]](#table-of-contents)
+### Download commits from remote repository
+```bash
+git pull origin <branch>
+```
+[[Go back]](#table-of-contents)
+### Upload commits to remote repository
+```bash
+git push origin <branch>
+```
+[[Go back]](#table-of-contents)
+### Make a new branch and switch to it
+```bash
+git checkout -b <branch>
+```
+[[Go back]](#table-of-contents)
+### List all existing branches
+```bash
+git branch -a
+```
+[[Go back]](#table-of-contents)
+### Delete branch
+```bash
+git branch -d <branch>
+```
+[[Go back]](#table-of-contents)
+### Push branch to origin on first create
+```bash
+git push -u origin <branch>
+```
+[[Go back]](#table-of-contents)
+### Merge a branch to another
+```bash
+git checkout <destination_branch>
+git merge <source_branch>
+```
+[[Go back]](#table-of-contents)
+### Resolve merge conflicts
+```bash
+git add .
+git add <confict_files>
+git commit -m "Merged commit to master"
+```
+[[Go back]](#table-of-contents)
+### Abort merge
+```bash
+git merge --abort
+```
+[[Go back]](#table-of-contents)
+###  Discard uncommited changes in working directory
+```bash
+git checkout -- .
+git checkout -- <filename>
+```
+[[Go back]](#table-of-contents)
+### List all commits in current branch
+```bash
+git log
+git log --graph --oneline --decorate --all
+```
+[[Go back]](#table-of-contents)
+### Add tags 
+```bash
+git tag -a <version>  -m <tag_message>
+git push --tags
+```
+[[Go back]](#table-of-contents)
+### Remove last commit
+```bash
+git reset HEAD~
+```
 [[Go back]](#table-of-contents)
