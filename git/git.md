@@ -42,6 +42,10 @@ Steps on how to creating a new git repository.
     git config user.name "John Doe"
     git config user.email "john.doe@gmail.com"
     ```
+- If you're on Windows, make sure to set `core.autocrlf` to `input`
+    ```bash
+    git config --global core.autocrlf input
+    ```
 - Add initial files to the staging area
     ```bash
     git add .
