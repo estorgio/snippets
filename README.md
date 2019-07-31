@@ -6,6 +6,7 @@ This repository contains a collection of syntax guides and code snippets that I 
 - [Git](git/git.md)
 - [NPM](npm/npm.md)
 - [Heroku](heroku/heroku.md)
+- [Golang](golang/index.md)
 
 ## Disclaimer
 This repository is intended for personal use only.
