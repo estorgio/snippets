@@ -8,6 +8,7 @@ This repository contains a collection of syntax guides and code snippets that I 
 - [Heroku](heroku/heroku.md)
 - [Golang](golang/index.md)
 - [MongoDB](mongodb/index.md)
+- [Laravel](laravel/index.md)
 
 ## Disclaimer
 This repository is intended for personal use only.
