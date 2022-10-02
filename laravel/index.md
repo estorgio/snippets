@@ -95,8 +95,15 @@ Route::get('/books', function () {
 Route::get('/', [SampleController::class, 'methodname']);
 
 
-// Variable routes with curly braces {}
+// Specifying route parameters with curly braces
 Route::get('/books/{id}', [BooksController::class, 'show']);
+
+
+// Multiple route parameters
+Route::get('/books/{bookname}/chapter/{chapter}', 
+  function ($bookname, $chapter) {
+    return 'Book name: ' . $bookname . '<br>' . 'Chapter: ' . $chapter;
+  });
 
 
 // Routes only accessible for authenticated users
