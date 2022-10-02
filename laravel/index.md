@@ -7,6 +7,7 @@ This guide will walk you through the basics of Laravel 9.
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Common directories and files](#common-directories-and-files)
+- [Routing](#routing)
 
 ## Prerequisites
 Before proceeding, please make sure you have `composer` installed on your system.
@@ -60,5 +61,53 @@ $ cd storage/app/public
 
 # Uploaded files directory symbolic linked in public
 $ cd public/storage
+```
+[[Go back]](#table-of-contents)
+
+## Routing
+To add routes, simply open and edit `routes/web.php` file. Here are some sample routes:
+```PHP
+// Show hello world
+Route::get('/', function () {
+    return 'Hello world';
+});
+
+
+// Subdirectory
+Route::get('/books', function () {
+    return 'This is books directory';
+});
+
+
+// Display a view
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
+// For views inside directories, use dot notation
+Route::get('/books', function () {
+    return view('books.show');  // resources/views/books/show.blade.php
+});
+
+
+// Using controllers for routes
+Route::get('/', [SampleController::class, 'methodname']);
+
+
+// Variable routes with curly braces {}
+Route::get('/books/{id}', [BooksController::class, 'show']);
+
+
+// Routes only accessible for authenticated users
+// using middleware('auth')
+Route::post('/sensitive', [SenstiveController::class, 'show'])
+  ->middleware('auth');
+
+
+// Routes only accessible for guess (non-authenticated) users
+Route::get('/login', [UserController::class, 'login'])
+  ->name('login')
+  ->middleware('guest');
 ```
 [[Go back]](#table-of-contents)
