@@ -8,6 +8,10 @@ This guide will walk you through the basics of Laravel 9.
 - [Installation](#installation)
 - [Common directories and files](#common-directories-and-files)
 - [Routing](#routing)
+  - [Router Methods](#router-methods)
+  - [Router Parameter Constraints](#router-parameter-constraints)
+  - [Fallback Route](#fallback-route)
+  - [Route Groups](#route-groups)
 
 ## Prerequisites
 Before proceeding, please make sure you have `composer` installed on your system.
@@ -84,6 +88,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Display a view with status code
+Route::get('/', function () {
+    return response()
+      ->view('welcome', [], 404);
+});
+
 
 // For views inside directories, use dot notation
 Route::get('/books', function () {
@@ -116,5 +126,77 @@ Route::post('/sensitive', [SenstiveController::class, 'show'])
 Route::get('/login', [UserController::class, 'login'])
   ->name('login')
   ->middleware('guest');
+```
+[[Go back]](#table-of-contents)
+
+### Router Methods
+Here are some available router methods.
+```php
+Route::get($uri, $callback);
+Route::post($uri, $callback);
+Route::put($uri, $callback);
+Route::patch($uri, $callback);
+Route::delete($uri, $callback);
+Route::options($uri, $callback);
+```
+[[Go back]](#table-of-contents)
+
+### Router Parameter Constraints
+You can apply restrictions as to what value can be passed in router parameters by using constraints.
+```php
+// Using RegEx
+Route::get('/user/{name}', function ($name) {
+  })->where('name', '[A-Za-z]+');
+
+
+// Using helper methods
+Route::get('/user/{id}/{name}', function ($id, $name) {
+  })
+  ->whereNumber('id')
+  ->whereAlpha('name');
+
+// Another helper
+Route::get('/test/{value}', function ($value) {
+  })
+  ->whereIn('value', ['true', 'false']);
+```
+Available helper methods:
+  - `whereNumber($param)` - only numbers
+  - `whereAlpha($param)` - only letters
+  - `whereAlphaNumeric($param)` - numbers and letters
+  - `whereIn($param)` - selected values
+
+[[Go back]](#table-of-contents)
+
+### Fallback Route
+This route will execute when no other routes matched. Should only be placed at the end of the `routes/web.php` file.
+```php
+Route::fallback(function () {
+    return response('This is a sample 404 page', 404);
+});
+```
+[[Go back]](#table-of-contents)
+
+### Route Groups
+Route groups are a great way to organize your routes and improve code readability.
+```php
+// Group routes by controller
+Route::controller(BookController::class)
+  ->group(function () {
+      Route::get('/books', 'index');
+      Route::post('/books/{id}', 'show');
+  });
+
+
+// Route prefixes
+Route::prefix('books')
+  ->group(function () {
+      Route::get('/{id}', function () {
+          // Matches The "/books/{id}" url
+      });
+      Route::get('/create', function () {
+          // Matches The "/books/create" url
+      });
+  });
 ```
 [[Go back]](#table-of-contents)
