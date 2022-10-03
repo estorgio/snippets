@@ -9,6 +9,7 @@ This guide will walk you through the basics of Laravel 9.
 - [Common directories and files](#common-directories-and-files)
 - [Routing](#routing)
   - [Router Methods](#router-methods)
+  - [Common Resource Routes](#common-resource-routes)
   - [Router Parameter Constraints](#router-parameter-constraints)
   - [Fallback Route](#fallback-route)
   - [Route Groups](#route-groups)
@@ -127,6 +128,18 @@ Route::get('/login', [UserController::class, 'login'])
   ->name('login')
   ->middleware('guest');
 ```
+[[Go back]](#table-of-contents)
+
+### Common Resource Routes
+Here are some conventions when designing resource routes.
+- `index` - list all items
+- `show` - show single item
+- `create` - display form to add new item
+- `store` - receives data from `create` and stores it in the database
+- `edit` - display form to edit existing item
+- `update` - receives data from `edit` and saves changes to the database
+- `destroy` - delete item 
+
 [[Go back]](#table-of-contents)
 
 ### Router Methods
