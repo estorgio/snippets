@@ -13,6 +13,10 @@ This guide will walk you through the basics of Laravel 9.
   - [Router Parameter Constraints](#router-parameter-constraints)
   - [Fallback Route](#fallback-route)
   - [Route Groups](#route-groups)
+- [Controllers](#controllers)
+  - [Creating Controllers](#creating-controllers)
+  - [Controller Methods](#controller-methods)
+  - [Getting Input From User](#getting-input-from-user)
 
 ## Prerequisites
 Before proceeding, please make sure you have `composer` installed on your system.
@@ -213,3 +217,86 @@ Route::prefix('books')
   });
 ```
 [[Go back]](#table-of-contents)
+
+## Controllers
+Controllers are classes that implements the logic of the application. All controllers are located at `app/Http/Controllers` directory.
+
+### Creating Controllers
+To create a new controller, use the following command:
+```bash
+# By convention, all controllers must be a singular noun (without 's') 
+# and should have "Controller" postfix (ex. BookController, 
+# UserController, etc.)
+$ php artisan make:controller SampleController
+```
+A new controller should be generated in `apps/Http/Controllers` directory. Here is a sample boilerplate code for a newly-generated controller:
+```php
+<?php
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+
+class SampleController extends Controller
+{
+    //
+}
+```
+[[Go back]](#table-of-contents)
+
+### Controller Methods
+All the code inside controllers are organized into methods. Each of these methods perform a specific operation. Most of these operations are similar to the ones listed in [Common Resource Routes](#common-resource-routes) section.
+
+For now, we will display a sample `Hello World` text.
+```php
+class SampleController extends Controller
+{
+    public function index()
+    {
+        return 'Hello world!';
+    }
+}
+```
+
+To make this controller method accessible, edit the `routes/web.php` and add a route for our method.
+```php
+// Inside `routes/web.php` file
+Route::get('/samples', [SampleController::class, 'index']);
+```
+
+The route method should now be accessible at `http://localhost/samples` directory
+```
+Hello world!
+```
+[[Go back]](#table-of-contents)
+
+### Getting Input From User
+There are times that you want to retrieve data from a form in a POST request or a GET url query such as `/?search=apples`. To accomplish this, use `request()` helper function.
+```php
+class SampleController extends Controller
+{
+    public function index()
+    {
+        $query = request(['name', 'age']);
+        return "name: " . $query['name'] . ', age: ' . $query['age'];
+    }
+}
+```
+You can also use dependency injection to retrieve data from query string.
+```php
+use Illuminate\Http\Request;
+
+class SampleController extends Controller
+{
+    public function index(Request $request)
+    {
+        return "name: " . $request->name . ', age: ' . $request->age;
+    }
+}
+```
+URL:
+```
+http://localhost/samples?name=Bob&age=21
+```
+Output:
+```
+name: Bob, age: 21
+```
