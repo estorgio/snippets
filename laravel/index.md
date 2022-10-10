@@ -17,6 +17,12 @@ This guide will walk you through the basics of Laravel 9.
   - [Creating Controllers](#creating-controllers)
   - [Controller Methods](#controller-methods)
   - [Getting Input From User](#getting-input-from-user)
+- [Models](#models)
+  - [Creating Model](#creating-model)
+  - [Setting Up Migration](#setting-up-migration)
+  - [Factory](#factory)
+  - [Fillable Attributes](#fillable-attributes)
+  - [Enable Soft Delete](#enable-soft-delete)
 
 ## Prerequisites
 Before proceeding, please make sure you have `composer` installed on your system.
@@ -299,5 +305,83 @@ http://localhost/samples?name=Bob&age=21
 Output:
 ```
 name: Bob, age: 21
+```
+[[Go back]](#table-of-contents)
+
+## Models
+### Creating Model
+```bash
+# Create new model, factory, and seeder
+$ php artisan make:model Product -mfs
+```
+[[Go back]](#table-of-contents)
+
+### Setting Up Migration
+Create database schema with migrations. Here you can specify the table attributes as well as their data types.
+```php
+# database/migrations/2022_10_07_034344_create_products_table.php
+return new class extends Migration {
+  public function up() {
+    Schema::create('products', function (Blueprint $table) {
+        $table->id();
+        $table->string('name');
+        $table->decimal('price', 9, 2);
+        $table->integer('quantity');
+        $table->string('barcode')->unique();
+        $table->timestamps();
+        $table->softDeletes();
+    });
+  }
+}
+```
+[[Go back]](#table-of-contents)
+
+### Factory
+Factories are used to generate dummy data.
+```php
+# database/factories/ProductFactory.php
+class ProductFactory extends Factory {
+    public function definition() {
+        return [
+            'name' => fake()->words(2, true),
+            'price' => fake()->randomFloat(2, 1, 300),
+            'quantity' => fake()->randomNumber(2),
+            'barcode' => fake()->unique()->randomNumber(8, true),
+          ];
+    }
+}
+```
+[[Go back]](#table-of-contents)
+
+### Fillable Attributes
+In your model, specify which attributes can be mass-assigned during insert operations.
+```php
+# app/Models/Product.php
+class Product extends Model {
+  protected $fillable = ['name', 'price', 'quantity', 'barcode'];
+  ...
+}
+```
+[[Go back]](#table-of-contents)
+
+### Enable Soft Delete
+Soft deletes allows you to mark deleted items without physically deleting records in the database.
+```php
+# database/migrations/2022_10_07_034344_create_products_table.php
+return new class extends Migration {
+  public function up() {
+    Schema::create('products', function (Blueprint $table) {
+        ...
+        $table->softDeletes(); # Adds deleted_at attribute
+    });
+  }
+}
+```
+```php
+# app/Models/Product.php
+class Product extends Model {
+  use HasFactory, SoftDeletes;  # Insert SoftDeletes trait here
+}
+
 ```
 [[Go back]](#table-of-contents)
