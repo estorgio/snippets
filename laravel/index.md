@@ -17,6 +17,9 @@ This guide will walk you through the basics of Laravel 9.
   - [Creating Controllers](#creating-controllers)
   - [Controller Methods](#controller-methods)
   - [Getting Input From User](#getting-input-from-user)
+- [Views](#views)
+  - [Loading Views](#loading-views)
+  - [Accessing Data in Views](#accessing-data-in-views)
 - [Models](#models)
   - [Creating Model](#creating-model)
   - [Setting Up Migration](#setting-up-migration)
@@ -306,6 +309,29 @@ http://localhost/samples?name=Bob&age=21
 Output:
 ```
 name: Bob, age: 21
+```
+[[Go back]](#table-of-contents)
+
+## Views
+### Loading Views
+You can load views in Laravel using the `view()` method, with the variables passed on as associative array on the second argument. 
+```php
+class ProductController extends Controller {
+  public function index() {
+    // Load 'resources/views/contacts/index.blade.php
+    return view('contacts.index', [
+      'name' => 'John Doe',
+      'contact' => '012345678'
+    ])
+  }
+}
+```
+[[Go back]](#table-of-contents)
+
+### Accessing Data in Views
+To access or print variables passed in the view, use `{{ }}` double curly braces.
+```php
+<div>Hello, {{ $name }}</div>
 ```
 [[Go back]](#table-of-contents)
 
