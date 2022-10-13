@@ -23,6 +23,7 @@ This guide will walk you through the basics of Laravel 9.
   - [Factory](#factory)
   - [Fillable Attributes](#fillable-attributes)
   - [Enable Soft Delete](#enable-soft-delete)
+- [File upload](#file-upload)
 
 ## Prerequisites
 Before proceeding, please make sure you have `composer` installed on your system.
@@ -384,4 +385,35 @@ class Product extends Model {
 }
 
 ```
+[[Go back]](#table-of-contents)
+
+## File Upload
+  - Edit `.env` config file and change the `FILESYSTEM_DISK`
+    ```
+    FILESYSTEM_DISK=public
+    ```
+  - Add symbolic link in public directory
+    ```bash
+    $ php artisan storage:link
+    ```
+  - In the view, change the form's `enctype` value to `multipart/form-data`
+    ```html
+    <form action="/products" method="POST" enctype="multipart/form-data">
+    ```
+  - Add file upload field in the form
+    ```html
+    <div class="form-group @error('image') has-danger @enderror">
+      <label for="image" class="form-label mt-4">Product Image</label>
+      <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">
+      @error('image')
+        <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
+    </div>
+    ```
+  - Accept file on the controller
+    ```php
+    if ($request->hasFile('image')) {
+      $formFields['image'] = $request->file('image')->store('images');
+    }
+    ```
 [[Go back]](#table-of-contents)
