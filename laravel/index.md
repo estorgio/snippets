@@ -20,6 +20,11 @@ This guide will walk you through the basics of Laravel 9.
 - [Views](#views)
   - [Loading Views](#loading-views)
   - [Accessing Data in Views](#accessing-data-in-views)
+  - [Get Asset URL](#get-asset-url)
+  - [Partials](#partials)
+  - [Components](#components)
+  - [Component With Slots](#component-with-slots)
+  - [Additional Blade Directives](#additional-blade-directives)
 - [Models](#models)
   - [Creating Model](#creating-model)
   - [Setting Up Migration](#setting-up-migration)
@@ -330,8 +335,99 @@ class ProductController extends Controller {
 
 ### Accessing Data in Views
 To access or print variables passed in the view, use `{{ }}` double curly braces.
-```php
+```html
 <div>Hello, {{ $name }}</div>
+```
+[[Go back]](#table-of-contents)
+
+### Get Asset URL
+To get a link to your assets in public folder, use `asset()`.
+```html
+<link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
+```
+[[Go back]](#table-of-contents)
+
+
+### Partials
+To insert other views into the current view, use `@include` Blade directive.
+```php
+@include('_books.index')
+```
+[[Go back]](#table-of-contents)
+
+### Components
+Components are similar to partials but are more sophisticated as you can pass values into them. You can also use them like HTML tags in Blade templates and Laravel will render them properly.
+
+Sample component:
+```html
+{{ -- 'resources/views/components/customer-info.blade.php' -- }}
+@props(['customer'])
+
+<p>Name: {{ $customer->name }}</p><br>
+<p>Age: {{ $customer->age }}</p><br>
+<p>Address: {{ $customer->address }}</p><br>
+```
+
+Using component in another view:
+```html
+{{ -- 'resources/views/index.blade.php' -- }}
+<x-customer-info :customer="$new_customer" />
+```
+[[Go back]](#table-of-contents)
+
+### Component With Slots
+You can also use components like HTML tags and have them output content inside them using `{{ $slot }}` statement. To pass named slots to components, use `<x-slot:myvarname>`.
+```html
+{{ -- 'resources/views/components/layout.blade.php' -- }}
+<html>
+  <head>
+    <title>Bookmark - {{ $title }}</title>
+  </head>
+  <body>
+    {{ $slot }}
+  </body>
+</html>
+```
+```html
+<x-layout>
+  <x-slot:title>
+    Dashboard
+  </x-slot>
+
+  <div>All content goes from here.</div>
+</x-layout>
+```
+[[Go back]](#table-of-contents)
+
+### Additional Blade Directives
+```php
+// Add CSRF token field inside forms
+@csrf
+
+
+// Submitting form with PUT or DELETE action
+@method('PUT')
+@method('DELETE')
+
+
+// Displaying validation errors in each form fields
+@error('fieldname')
+<div class="error-message">{{ $message }}</div>
+@enderror
+
+
+// Loop through arrays
+@foreach($items as $item)
+  <div>{{ $item->name }}</div>
+@endforeach
+
+
+// Loops through arrays but also display message if empty
+@forelse($items as $item)
+  <div>{{ $item->name }}</div>
+@empty
+  <div>There are no items yet!</div>
+@endforelse
 ```
 [[Go back]](#table-of-contents)
 
