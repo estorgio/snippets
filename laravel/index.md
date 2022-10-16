@@ -32,6 +32,10 @@ This guide will walk you through the basics of Laravel 9.
   - [Fillable Attributes](#fillable-attributes)
   - [Enable Soft Delete](#enable-soft-delete)
 - [File upload](#file-upload)
+- [Form Validation](#form-validation)
+  - [Validating in Controllers](#validating-in-controllers)
+  - [Validation with FormRequest Class](#validation-with-formrequest-class)
+  - [Displaying Validation Errors](#displaying-validation-errors)
 
 ## Prerequisites
 Before proceeding, please make sure you have `composer` installed on your system.
@@ -538,4 +542,75 @@ class Product extends Model {
       $formFields['image'] = $request->file('image')->store('images');
     }
     ```
+[[Go back]](#table-of-contents)
+
+## Form Validation
+Laravel provides some options when it comes to validating form content.
+
+### Validating in Controllers
+To perform validation on controllers, add `Request` as a dependency on the method and use the `validate()`. From there, you can pass an associative array containing the fields with their corresponding validation rule.
+```php
+// app/Http/Controllers/UserController.php
+use Illuminate\Http\Request;
+
+class UserController extends Controller {
+  public function store(Request $request){
+    $formFields = $request->validate([
+        'username' => 'required|min:4|unique:users,username',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|confirmed|min:8',
+    ]);
+    // $formFields can now be used, say to be stored in db
+  }
+}
+```
+[[Go back]](#table-of-contents)
+
+### Validation with FormRequest Class
+Alternatively, you may also use a separate class for form validation. In this case, you can use `FormRequest` class. To create one, use the following command:
+```bash
+$ php artisan make:request UserRequest
+```
+A new `FormRequest` class will be created on `app\Http\Requests` director. You can now place you validation rules inside the `rules()` method. 
+
+Also, do not forget to set the return value for `authorize()` to `true`.
+```php
+namespace App\Http\Requests;
+use Illuminate\Foundation\Http\FormRequest;
+
+class UserRequest extends FormRequest {
+  public function authorize(){
+    return true;
+  }
+  public function rules() {
+    return [
+      'username' => 'required|min:4|unique:users,username',
+      'email' => 'required|email|unique:users,email',
+      'password' => 'required|confirmed|min:8',
+    ];
+  }
+}
+
+```
+To use this class, simply replace the `Request` on your controller method's parameter to the name of your class. In this example, it's `UserRequest`. After that, change the `validate()` method call to `validated()` to run the validation rules on our `FormRequest` class.
+```php
+public function store(UserRequest $request) {
+  $formFields = $request->validated();
+}
+```
+[[Go back]](#table-of-contents)
+
+### Displaying Validation Errors
+To show validation errors, in the view where the form is to be submitted from, add `@error('fieldname')` Blade directive for each form field. Inside, use `{{ $message }}` to print out the validation error. You can also choose to display previous values by calling `old('fieldname')` method.
+```html
+<form method="POST" action="/products">
+  <div class="form-group">
+    <label for="product_name">Product name:</label>
+    <input type="text" name="product_name" value="{{ old('product_name') }}">
+    @error('product_name')
+    <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+  </div>
+</form>
+```
 [[Go back]](#table-of-contents)
