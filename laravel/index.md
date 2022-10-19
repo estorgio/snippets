@@ -41,6 +41,7 @@ This guide will walk you through the basics of Laravel 9.
   - [Log In](#log-in)
   - [Log Out](#log-out)
   - [Remember Me](#remember-me)
+  - [Blade Directives for Authentication](#blade-directives-for-authentication)
 
 ## Prerequisites
 Before proceeding, please make sure you have `composer` installed on your system.
@@ -694,5 +695,12 @@ public function up() {
 ```
 [[Go back]](#table-of-contents)
 
-
-
+### Blade Directives for Authentication
+```php
+@auth
+  <p>You are logged in as {{ auth()->user()->username }}</p>
+@else
+  <p>You are not logged in.</p>
+@endauth
+```
+[[Go back]](#table-of-contents)
