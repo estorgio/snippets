@@ -36,6 +36,11 @@ This guide will walk you through the basics of Laravel 9.
   - [Validating in Controllers](#validating-in-controllers)
   - [Validation with FormRequest Class](#validation-with-formrequest-class)
   - [Displaying Validation Errors](#displaying-validation-errors)
+- [Authentication](#authentication)
+  - [Sign Up](#sign-up)
+  - [Log In](#log-in)
+  - [Log Out](#log-out)
+  - [Remember Me](#remember-me)
 
 ## Prerequisites
 Before proceeding, please make sure you have `composer` installed on your system.
@@ -614,3 +619,80 @@ To show validation errors, in the view where the form is to be submitted from, a
 </form>
 ```
 [[Go back]](#table-of-contents)
+
+## Authentication
+
+### Sign Up
+```php
+public function store(Request $request) {
+  $formFields = $request->validate([
+    'username' => 'required|min:4|unique:users,username',
+    'email' => 'required|email|unique:users,email',
+    'password' => 'required|confirmed|min:8',
+  ]);
+
+  $formFields['password'] = Hash::make($formFields['password']);
+
+  $user = User::create($formFields);
+
+  auth()->login($user);
+
+  return redirect('/')->with('message', 'Welcome, ' . $user->username);
+}
+```
+[[Go back]](#table-of-contents)
+
+### Log In
+```php
+public function authenticate(Request $request) {
+  $formFields = $request->validate([
+    'username' => 'required',
+    'password' => 'required',
+  ]);
+
+  if (auth()->attempt($formFields)) {
+    $request->session()->regenerate();
+    return redirect('/')->with('message', 'Welcome back, ' . auth()->user()->username);
+  }
+
+  return back()
+    ->withErrors(['password' => 'Invalid username or password'])
+    ->onlyInput('username');
+}
+```
+[[Go back]](#table-of-contents)
+
+### Log Out
+```php
+public function logout(Request $request) {
+  auth()->logout();
+  $request->session()->invalidate();
+  $request->session()->regenerateToken();
+
+  return redirect('/login')->with('message', 'You have been logged out.');
+}
+```
+[[Go back]](#table-of-contents)
+
+### Remember Me
+```php
+// Controller
+$remember = $request->has('remember_me');
+
+if (auth()->attempt($formFields, $remember)) {
+  $request->session()->regenerate();
+  return redirect('/')->with('message', 'Welcome back, ' . auth()->user()->username);
+}
+```
+```php
+// Migration
+public function up() {
+  Schema::create('users', function (Blueprint $table) {
+    $table->rememberToken();
+  });
+}
+```
+[[Go back]](#table-of-contents)
+
+
+
