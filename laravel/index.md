@@ -6,6 +6,7 @@ This guide will walk you through the basics of Laravel 9.
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
+  - [Upgrade](#upgrade)
 - [Common directories and files](#common-directories-and-files)
 - [Routing](#routing)
   - [Router Methods](#router-methods)
@@ -54,6 +55,13 @@ To create a new Laravel project, open the terminal and run the `composer create-
 ```bash
 # Replace MyNewlaravelProject with your project's name
 $ composer create-project laravel/laravel MyNewLaravelProject
+```
+[[Go back]](#table-of-contents)
+
+### Upgrade
+To upgrade an existing Laravel project or any Composer dependencies for that matter, run the following command
+```bash
+$ composer update
 ```
 [[Go back]](#table-of-contents)
 
