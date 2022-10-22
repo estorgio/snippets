@@ -32,6 +32,7 @@ This guide will walk you through the basics of Laravel 9.
   - [Factory](#factory)
   - [Fillable Attributes](#fillable-attributes)
   - [Enable Soft Delete](#enable-soft-delete)
+  - [Scopes](#scopes)
 - [File upload](#file-upload)
 - [Form Validation](#form-validation)
   - [Validating in Controllers](#validating-in-controllers)
