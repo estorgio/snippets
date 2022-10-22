@@ -527,6 +527,27 @@ class Product extends Model {
 ```
 [[Go back]](#table-of-contents)
 
+### Scopes
+Scopes allows you to encapsulate queries in a method, making the code more readable and reusable.
+```php
+//app/Models/Product.php
+class Product extends Model {
+
+  public function scopeSort($query, array $sort) {
+    $field = $sort['field'] ?? 'created_at';
+    $order = $sort['order'] ?? 'desc';
+    $query->orderBy($field, $order);
+  }
+}
+```
+```php
+// Sample usage in controller
+$products = Product::latest()
+            ->sort(['field' => 'name', 'order' => 'desc']);
+```
+[[Go back]](#table-of-contents)
+
+
 ## File Upload
   - Edit `.env` config file and change the `FILESYSTEM_DISK`
     ```
