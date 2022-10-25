@@ -26,6 +26,7 @@ This guide will walk you through the basics of Laravel 9.
   - [Components](#components)
   - [Component With Slots](#component-with-slots)
   - [Additional Blade Directives](#additional-blade-directives)
+  - [Custom Blade Directives](#custom-blade-directives)
 - [Models](#models)
   - [Creating Model](#creating-model)
   - [Setting Up Migration](#setting-up-migration)
@@ -447,6 +448,29 @@ You can also use components like HTML tags and have them output content inside t
 @empty
   <div>There are no items yet!</div>
 @endforelse
+```
+[[Go back]](#table-of-contents)
+
+### Custom Blade Directives
+Laravel allows you to specify your own custom directives. To do so you may call the `Blade::directive()` method inside the `AppServiceProvider.php`.
+```php
+// app/Providers/AppServiceProvider.php
+namespace App\Providers;
+
+class AppServiceProvider extends ServiceProvider {
+  public function boot() {
+    Blade::directive('format_time', function ($expression) {
+      return "<?php echo date('F j, Y - g:i A', strtotime($expression)) ; ?>";
+    });
+  }
+}
+```
+To use the custom directive we just made, prefix the name with an at sign (@) just like you would with regular Blade directives.
+```html
+<div class="row mb-2">
+    <div class="col"><strong>Date added:</strong></div>
+    <div class="col">@format_time($product->created_at)</div>
+</div>
 ```
 [[Go back]](#table-of-contents)
 
