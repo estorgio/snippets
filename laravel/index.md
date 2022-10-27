@@ -45,6 +45,10 @@ This guide will walk you through the basics of Laravel 9.
   - [Log Out](#log-out)
   - [Remember Me](#remember-me)
   - [Blade Directives for Authentication](#blade-directives-for-authentication)
+- [Console](#console)
+  - [Creating a New Command](#creating-a-new-command)
+  - [Editing the Command](#editing-the-command)
+  - [Running the Command](#running-the-command)
 
 ## Prerequisites
 Before proceeding, please make sure you have `composer` installed on your system.
@@ -756,5 +760,37 @@ public function up() {
 @else
   <p>You are not logged in.</p>
 @endauth
+```
+[[Go back]](#table-of-contents)
+
+## Console
+### Creating a New Command
+Laravel allows you to create your own custom artisan commands. To do so, you can type the following command in the terminal:
+```bash
+$ php artisan make:command HelloWorld
+```
+[[Go back]](#table-of-contents)
+
+### Editing the Command
+All commands created using `make:command` will be placed in `app/Console/Commands` directory. Here is an example `HelloWorld` command we just created.
+```php
+use Illuminate\Console\Command;
+
+class HelloWorld extends Command {
+  protected $signature = 'hello:world';
+  protected $description = 'Displays hello world message';
+
+  public function handle() {
+    $this->info('Hello World!');
+    return Command::SUCCESS;
+  }
+}
+```
+[[Go back]](#table-of-contents)
+
+### Running the Command
+To run the command we just created, type the following in the terminal:
+```bash
+$ php artisan hello:world
 ```
 [[Go back]](#table-of-contents)
