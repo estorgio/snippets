@@ -45,6 +45,7 @@ This guide will walk you through the basics of Laravel 9.
   - [Log Out](#log-out)
   - [Remember Me](#remember-me)
   - [Blade Directives for Authentication](#blade-directives-for-authentication)
+  - [Email Verification](#email-verification)
 - [Console](#console)
   - [Creating a New Command](#creating-a-new-command)
   - [Editing the Command](#editing-the-command)
@@ -762,6 +763,110 @@ public function up() {
 @endauth
 ```
 [[Go back]](#table-of-contents)
+
+### Email Verification
+In `routes/web.php`, add the following routes.
+```php
+Route::get('/verify-account', [UserController::class, 'require_verification'])
+  ->middleware('auth')
+  ->name('verification.notice');
+
+Route::get('/verify-account/{id}/{hash}', [UserController::class, 'verify_account'])
+  ->middleware(['auth', 'signed'])
+  ->name('verification.verify');
+```
+In `app/Http/Controllers/UserController.php`, add the following controller methods.
+```php
+public function require_verification() {
+  return redirect('/');
+}
+
+public function verify_account(EmailVerificationRequest $request) {
+  $request->fulfill();
+  return redirect('/')
+    ->with('message', 'Your email has been successfully verified.');
+}
+```
+In `app/Models/User.php`, add the `MustVerifyEmail` interface to the `User` class.
+```php
+namespace App\Models;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+class User extends Authenticatable implements MustVerifyEmail {
+  ...
+}
+```
+In `app/Providers/AuthServiceProvider.php`, inside the `boot()` method, specify our custom `Mailable` class to be used for email verification. In this case, it's `EmailVerification`.
+```php
+class AuthServiceProvider extends ServiceProvider {
+  public function boot() {
+    // Custom mailable for email verification
+    VerifyEmail::toMailUsing(function ($notifiable, $url) {
+      return (new EmailVerification($url))
+        ->to($notifiable->email);
+    });
+  }
+}
+```
+Create `EmailVerification` class using `artisan` command.
+```bash
+$ php artisan make:mail EmailVerification
+```
+In `app/Mail/EmailVerification.php`, add the following code for the methods.
+```php
+class EmailVerification extends Mailable {
+  // Contains laravel-generated verification link
+  public $verify_url;
+
+  public function __construct($verify_url) {
+    $this->verify_url = $verify_url;
+  }
+
+  public function envelope() {
+    return new Envelope(
+      subject: 'Verify your email',
+    );
+  }
+
+  public function content() {
+    // Specify which Blade view to use for email content, in this
+    // case, it's `resources/views/emails/verify.blade.php`
+    return new Content(
+      view: 'emails.verify',
+    );
+  }
+}
+```
+Create `resources/views/emails/verify.blade.php` and add the contents of the email. Note that `$verify_url` corresponds to the public `$verify_url` property in our `EmailVerification` class as all of its public properties are accessible within the Blade view.
+```php
+<p>Hi,</p>
+<p>To verify your account, please use the following link.</p>
+<p><a href="{{ $verify_url }}">{{ $verify_url }}</a></p>
+<p>Regards,<br>Webmaster</p>
+```
+Finally, in `app/Http/Controllers/UserController.php` fire the `Registered` event to initiate the email sending process during the sign up process.
+```php
+use Illuminate\Auth\Events\Registered;
+
+class UserController extends Controller {
+  public function store(UserRequest $request){
+    $formFields = $request->validated();
+    $formFields['password'] = Hash::make($formFields['password']);
+
+    $user = User::create($formFields);
+
+    // Fire the event to initiate the email sending process
+    event(new Registered($user));
+
+    auth()->login($user);
+
+    return redirect('/')->with('message', 'Welcome, ' . $user->username);
+    return redirect('/');
+  }
+}
+```
+[[Go back]](#table-of-contents)
+
 
 ## Console
 ### Creating a New Command
