@@ -50,6 +50,7 @@ This guide will walk you through the basics of Laravel 9.
   - [Creating a New Command](#creating-a-new-command)
   - [Editing the Command](#editing-the-command)
   - [Running the Command](#running-the-command)
+- [Setting up reCAPTCHA](#setting-up-recaptcha)
 
 ## Prerequisites
 Before proceeding, please make sure you have `composer` installed on your system.
@@ -897,5 +898,118 @@ class HelloWorld extends Command {
 To run the command we just created, type the following in the terminal:
 ```bash
 $ php artisan hello:world
+```
+[[Go back]](#table-of-contents)
+
+## Setting up reCAPTCHA
+Create `config/recaptcha.php` configuration file.
+```php
+<?php
+return [
+    'site_key' => env('RECAPTCHA_SITE_KEY', null),
+    'secret_key' => env('RECAPTCHA_SECRET_KEY', null),
+    'theme' => env('RECAPTCHA_THEME', 'light'),
+];
+```
+Edit `.env` file and paste in your reCAPTCHA site key and secret key.
+```bash
+RECAPTCHA_SITE_KEY=""
+RECAPTCHA_SECRET_KEY=""
+RECAPTCHA_THEME="light"
+```
+Create a new custom rule class for reCAPTCHA validation.
+```bash
+$ php artisan make:rule RecaptchaValidate --invokable
+```
+Use the following implementation for the `__invoke()` method.
+```php
+<?php
+namespace App\Rules;
+
+use Illuminate\Support\Facades\Http;
+use Illuminate\Contracts\Validation\InvokableRule;
+
+class RecaptchaValidate implements InvokableRule
+{
+  public function __invoke($attribute, $value, $fail)
+  {
+    $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+      'secret' => config('recaptcha.secret_key'),
+      'response' => $value,
+      'remoteip' => request()->ip(),
+    ]);
+
+    $error = $response->json('error-codes');
+
+    if ($error) {
+      if (
+        in_array('missing-input-response', $error) ||
+        in_array('invalid-input-response', $error)
+      ) {
+        $fail('Please solve the ReCAPTCHA challenge.');
+      } else if (
+        in_array('missing-input-secret', $error) ||
+        in_array('invalid-input-secret', $error)
+      ) {
+        $fail('The ReCAPTCHA secret key is either missing or invalid.');
+      } else if (in_array('bad-request', $error)) {
+        $fail('Unable to validate the ReCAPTCHA challenge.');
+      } else if (in_array('timeout-or-duplicate', $error)) {
+        $fail('The ReCAPTCHA challenge has expired, please try again.');
+      }
+    } else if (!$response->json('success')) {
+      $fail('The ReCAPTCHA challange has failed. Please try again.');
+    }
+  }
+}
+```
+To be able to validate the reCAPTCHA attempt from the end user, apply our custom rule class `RecaptchaValidate` to the `g-recaptcha-respose` field that was sent from the form.
+```php
+$request->validate([
+  'g-recaptcha-response' => new RecaptchaValidate(),
+]);
+```
+Edit `app/Providers/AppServiceProvider.php` and add our custom Blade directives.
+```php
+class AppServiceProvider extends ServiceProvider {
+  public function boot() {
+    ...
+    $this->load_recaptcha_directives();
+  }
+
+  private function load_recaptcha_directives(){
+    Blade::directive('recaptcha_script', function () {
+      return '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
+    });
+
+    Blade::directive('recaptcha_field', function () {
+      return '<div class="g-recaptcha" data-sitekey="' . config('recaptcha.site_key') . '" ' .
+          'data-theme="' . config('recaptcha.theme') . '"></div>';
+    });
+  }
+}
+```
+Add `@recaptcha_script` custom directive at the `<head>` of the view.
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  ...
+  @recaptcha_script
+</head>
+<body>
+  ...
+</body>
+</html>
+```
+Finally, to render the reCAPTCHA challenge inside your forms, simply use `@recaptcha_field`.
+```html
+<form method="POST" action="/register">
+  @csrf
+  <input type="text" name="username">
+  <input type="password" name="password">
+  @recaptcha_field
+  <button type="submit">Register</button>
+</form>
 ```
 [[Go back]](#table-of-contents)
