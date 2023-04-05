@@ -106,6 +106,7 @@ This guide will walk you through the basics of Python 3.x.
   - [Multiple Inheritance](#multiple-inheritance)
   - [Method Resolution Order (MRO)](#method-resolution-order-mro)
   - [Magic Methods](#magic-methods)
+  - [Abstract Classes](#abstract-classes)
 - [Enums](#enums)
     - [Auto-generated enum values](#auto-generated-enum-values)    
 - [Iterators and Iterables](#iterators-and-iterables)
@@ -2080,6 +2081,43 @@ print(wallet3)              # You have 33 pesos in wallet
 # __add__() returns a brand new instance of the Wallet object
 print(wallet1 is wallet3)   # False
 print(wallet2 is wallet3)   # False
+```
+[[Go back]](#table-of-contents)
+
+### Abstract Classes
+Classes that served as a base class for other classes. They contain one or more abstract methods that must be implemented in the subclass. They are not meant to be instantiated as a stand-alone object. Any instance creation must be done in their subclasses.
+
+To designate a class as an abstract class, inherit from `ABC` class from `abc` (Abstract Base Class) built-in module. To designate specific methods inside the class as an abstract method, use the `@abstractmethod` decorator.
+```python
+from abc import ABC, abstractmethod
+
+# Abstract Class
+class AbstractFoo(ABC):
+    @abstractmethod     # Specify hello() as abstract method
+    def hello(self):
+        pass
+
+# Complete Subclass
+class Bar(AbstractFoo):
+    def hello(self):    # Abstract method implemented
+        print('Hello world')
+
+# Incomplete Subclass
+class Baz(AbstractFoo):
+    pass    # No abstract method implementation
+
+# Complete Subclass can be instantiated
+bar = Bar()
+bar.hello()     # Hello world
+
+# Abstract classes cannot be instantiated
+foo = AbstractFoo()
+# TypeError: Can't instantiate abstract class AbstractFoo with abstract method hello
+
+# Incomplete Subclass cannot be instantiated
+# All abstract methods must be implemented first!
+baz = Baz()
+# TypeError: Can't instantiate abstract class Baz with abstract method hello
 ```
 [[Go back]](#table-of-contents)
 
