@@ -9,6 +9,7 @@ This repository contains a collection of syntax guides and code snippets that I 
 - [Golang](golang/index.md)
 - [MongoDB](mongodb/index.md)
 - [Laravel](laravel/index.md)
+- [Python](python/index.md)
 
 ## Disclaimer
 This repository is intended for personal use only.
