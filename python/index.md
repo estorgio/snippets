@@ -10,6 +10,7 @@ This guide will walk you through the basics of Python 3.x.
   - [Destructuring](#destructuring)
   - [Type Checking](#type-checking)
   - [Type Conversion](#type-conversion)
+  - [Deleting Variables](#deleting-variables)
 - [Operators](#operators)
   - [Arithmetic Operators](#arithmetic-operators)
   - [Comparison Operators](#comparison-operators)
@@ -288,6 +289,18 @@ print(float(some_float))  # convert to float
 
 to_text = 88
 print(str(to_text))       # convert to str
+```
+[[Go back]](#table-of-contents)
+
+### Deleting Variables
+To remove a variable from the current scope, use the `del` statement.
+```python
+greeting = 'Hello World'
+print(greeting)     # Hello World
+
+del greeting
+print(greeting)
+# NameError: name 'greeting' is not defined
 ```
 [[Go back]](#table-of-contents)
 
