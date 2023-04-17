@@ -41,6 +41,7 @@ This guide will walk you through the basics of Python 3.x.
   - [Iterate through a dictionary](#iterate-through-a-dictionary)
   - [Unpacking Dictionary](#unpacking-dictionary)
   - [Dictionary Methods](#dictionary-methods)
+  - [Deleting Dictionaries](#deleting-dictionaries)
   - [Dictionary Comprehension](#dictionary-comprehension)
 - [Tuples](#tuples)
   - [Check if a value exists in a tuple](#check-if-a-value-exists-in-a-tuple)
@@ -886,6 +887,21 @@ print(user)
   print(employee)     # {'name': 'John Doe', 'age': 34, 'active': True}
                       # age gets overwritten while active gets added
   ```
+[[Go back]](#table-of-contents)
+
+### Deleting Dictionaries
+Aside from `pop()` and `popitem()`, you can also remove items from a dictionary using the `del` statement.
+```python
+employee = {
+    'name': 'John Doe',
+    'age': 21,
+    'active': True,
+}
+print(employee) # {'name': 'John Doe', 'age': 21, 'active': True}
+
+del employee['age']
+print(employee)  # {'name': 'John Doe', 'active': True}
+```
 [[Go back]](#table-of-contents)
 
 ### Dictionary Comprehension
