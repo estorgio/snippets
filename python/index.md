@@ -94,6 +94,7 @@ This guide will walk you through the basics of Python 3.x.
   - [Importing Modules](#importing-modules)
   - [Custom Modules](#custom-modules)
   - [Nested Modules](#nested-modules)
+  - [Module Resolution](#module-resolution)
   - [`__name__` variable](#__name__-variable)
   - [Runnable Python](#runnable-python)
   - [Installing Third-Party Modules with `pip`](#installing-third-party-modules-with-pip)
@@ -1758,6 +1759,57 @@ print(fruits.apple.get_apple())   # This is apple.py
 ```
 
 [[Go back]](#table-of-contents)
+
+### Module Resolution
+When breaking down a complex Python application into separate files (modules), it is important to note that the path for module resolution always starts from where you launch your application.
+
+Consider the following project structure:
+```
+.
+└── hello-world/
+    ├── fruits/
+    │   └── apple.py
+    ├── vegetables/
+    │   └── cabbage.py
+    └── main.py
+```
+`main.py`
+```python
+from fruits import apple
+apple.greet()
+```
+
+`fruits/apple.py`
+```python
+from vegetables import cabbage
+
+def greet():
+    print('Hello from apple.py')
+    cabbage.greet()
+```
+
+`vegetables/cabbage.py`
+```python
+def greet():
+    print('Hello from cabbage.py')
+```
+
+Output:
+```bash
+$ python main.py 
+Hello from apple.py
+Hello from cabbage.py
+```
+Since we started our program from `main.py`, all module resolution will start from the directory where `main.py` is located. Hence if we want to import `cabbage` module from `fruits/apples.py`, we simply use either of these import statements:
+```python
+# Either this
+import vegetables.cabbage
+
+# Or this
+from vegetables import cabbage
+```
+[[Go back]](#table-of-contents)
+
 
 ### `__name__` variable
 When a Python file is included as a module from another file, it will return the name of the module. If the Python file is ran from the terminal, it will return `__main__` instead.
