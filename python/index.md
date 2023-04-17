@@ -34,6 +34,7 @@ This guide will walk you through the basics of Python 3.x.
   - [List Unpacking](#list-unpacking)
   - [List Methods](#list-methods)
   - [Slicing](#slicing)
+  - [Deleting Lists](#deleting-lists)
   - [List Comprehension](#list-comprehension)
 - [Dictionaries](#dictionaries)
   - [Check if a key exists in a dictionary](#check-if-a-key-exists-in-a-dictionary)
@@ -702,6 +703,29 @@ print(items[::-1])      # [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
 # Override items from index 3 to 5 with new values
 items[3:6:] = ['three', 'four', 'five']
 print(items)            # [0, 1, 2, 'three', 'four', 'five', 6, 7, 8, 9]
+```
+[[Go back]](#table-of-contents)
+
+### Deleting Lists
+Aside from `pop()` and `remove()`, you can also remove items in a list using the `del` statement.
+```python
+numbers = [0, 1, 2, 3, 4, 5, 6]
+
+# Delete first item
+del numbers[0]
+print(numbers)  # [1, 2, 3, 4, 5, 6]
+
+# Delete last item
+del numbers[-1]
+print(numbers)  # [1, 2, 3, 4, 5]
+
+# Delete with slices
+del numbers[0::2]
+print(numbers)  # [2, 4]
+
+# Delete all items
+del numbers[::]
+print(numbers)  # []
 ```
 [[Go back]](#table-of-contents)
 
