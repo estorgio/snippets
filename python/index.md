@@ -207,16 +207,22 @@ This guide will walk you through the basics of Python 3.x.
 [[Go back]](#table-of-contents)
 
 ## Data Types
-- `int`
-- `float`
-- `bool`
-- `str`
-- `list`
-- `dict`
-- `tuple`
-- `set`
-- `NoneType`
+Here are some of the most commonly used data types in Python.
 
+| Data Type      | Example                                     | 
+| -------------- | ------------------------------------------- | 
+| `int`          | `32`                                        | 
+| `float`        | `4.86`                                      | 
+| `bool`         | `True`                                      | 
+| `str`          | `'Hello'`                                   | 
+| `list`         | `['apples', 'oranges', 'grapes']`           | 
+| `dict`         | `{'name': 'John Doe', 'age': 21}`           | 
+| `tuple`        | `('male', 'female')`                        | 
+| `set`          | `{'Davao', 'Cebu', 'Manila', 'Baguio'}`     | 
+| `function`     | `def hello(): pass`                         | 
+| `NoneType`     | `None`                                      | 
+
+Data types as displayed by `type()`
 ```python
 print(type(32))                                       # <class 'int'>
 print(type(4.86))                                     # <class 'float'>
@@ -227,6 +233,19 @@ print(type({'name': 'John Doe', 'age': 21}))          # <class 'dict'>
 print(type(('male', 'female')))                       # <class 'tuple'>
 print(type({'Davao', 'Cebu', 'Manila', 'Baguio'}))    # <class 'set'>
 print(type(None))                                     # <class 'NoneType'>
+```
+
+[Functions](#functions) and [Lambdas](#lambda) are grouped under the `function` data type and they can be [passed around](#higher-order-functions) just like any other data types.
+```python
+def foo(): pass         # Function
+bar = lambda: True      # Lambda
+
+print(type(foo))        # <class 'function'>
+print(type(bar))        # <class 'function'>
+
+# test for function/lambda
+print(callable(foo))    # True
+print(callable(bar))    # True
 ```
 [[Go back]](#table-of-contents)
 
