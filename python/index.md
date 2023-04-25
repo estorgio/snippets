@@ -11,6 +11,7 @@ This guide will walk you through the basics of Python 3.x.
   - [Type Checking](#type-checking)
   - [Type Conversion](#type-conversion)
   - [Deleting Variables](#deleting-variables)
+  - [Multiline Expressions](#multiline-expressions)
 - [Operators](#operators)
   - [Arithmetic Operators](#arithmetic-operators)
   - [Comparison Operators](#comparison-operators)
@@ -323,6 +324,25 @@ print(greeting)     # Hello World
 del greeting
 print(greeting)
 # NameError: name 'greeting' is not defined
+```
+[[Go back]](#table-of-contents)
+
+### Multiline Expressions
+To break a very long expression into multiple lines, use a trailing `\` backslash character at the end of each line.
+```python
+message = 'This single line ' \
+    'of text is a ' \
+    'a very long ' \
+    'message spanning ' \
+    'multiple lines.'
+print(message)
+# This single line of text is a a very long message spanning multiple lines
+
+result = 10 + 20 + \
+    30 + 40 \
+    + 50
+print(result)
+# 150
 ```
 [[Go back]](#table-of-contents)
 
