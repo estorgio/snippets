@@ -517,6 +517,10 @@ first_name = 'John'
 last_name = 'Doe'
 print('My name is ' + first_name + ' ' + last_name)   # My name is John Doe
 
+# String concatenation with two literal values
+full_name = 'Abso' 'lutely'
+print(full_name) # Absolutely
+
 # String interpolation with F-Strings
 name = 'John Doe'
 print(f'Hi my name is {name}')    # Hi my name is John Doe
