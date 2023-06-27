@@ -512,28 +512,39 @@ String is a data type used for representing text.
 print('Single quotes')
 print("Double quotes")
 
+
 # String concatenation
 first_name = 'John'
 last_name = 'Doe'
 print('My name is ' + first_name + ' ' + last_name)   # My name is John Doe
 
+
 # String concatenation with two literal values
 full_name = 'Abso' 'lutely'
 print(full_name) # Absolutely
+
 
 # String interpolation with F-Strings
 name = 'John Doe'
 print(f'Hi my name is {name}')    # Hi my name is John Doe
 
+
+# Format floating point values in F-Strings
+height = 2.12345678
+print(f'My height is {height:.2f}')   # My height is 2.12
+
+
 # String interpolation with .format()
 name = 'John Doe'
 print('Hi my name is {}'.format(name))  # Hi my name is John Doe
+
 
 # Multiline strings (3 single-quotes)
 text = '''First line
 Second line
 Third line
 '''
+
 # Multiline strings (3 double-quotes)
 text = """First line
 Second line
