@@ -8,6 +8,7 @@ This guide will walk you through the basics of Python 3.x.
 - [Data Types](#data-types)
   - [Variable Declaration and Instantiation](#variable-declaration-and-instantiation)
   - [Destructuring](#destructuring)
+  - [Partial Destructuring](#partial-destructuring)
   - [Type Checking](#type-checking)
   - [Type Conversion](#type-conversion)
   - [Deleting Variables](#deleting-variables)
@@ -283,6 +284,26 @@ print(type(user_info))  # <class 'tuple'>
 print(f'{full_name}, {age}, {gender}')
 # John Doe, 21, male
 ```
+[[Go back]](#table-of-contents)
+
+### Partial Destructuring
+You can also perform destructuring only on a subset of elements in a [tuples](#tuples) and [lists](#lists). To do this, use the asterisk (*) to collect the rest of the values in a new list.
+```python
+# Example list
+customer = ['John', 'Mike', 'Amy']
+
+# Destructure only the first item, then put the rest in 'others'
+first_customer, *others = customer
+print(first_customer)   # John
+print(others)           # ['Mike', 'Amy']
+
+# Destructure only the last item, then put the rest in 'others'
+*others, last_customer = customer
+print(last_customer)    # Amy
+print(others)           # ['John', 'Mike']
+```
+[[Go back]](#table-of-contents)
+
 
 ### Type Checking
 Use `type()` to check the data type of a variable
