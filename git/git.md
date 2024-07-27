@@ -3,6 +3,7 @@
 # Git
 
 ## Table of Contents
+- [Setting up SSH credentials](#setting-up-ssh-credentials)
 - [Getting Started](#getting-started)
 - [Basic Commands](#basic-commands)
   - [Initialize git repository](#initialize-git-repository)
@@ -23,6 +24,53 @@
   - [List all commits in current branch](#list-all-commits-in-current-branch)
   - [Add tags](#add-tags)
   - [Remove last commit](#remove-last-commit)
+
+## Setting up SSH keys
+Steps on setting up SSH credentials on a newly installed computer.
+- Download and install [Git for Windows](https://git-scm.com/).
+- Create `~/.ssh` and `~/.ssh/keys` directories
+    ```bash
+    mkdir ~/.ssh
+    mkdir ~/.ssh/keys
+    ```
+- Create `config` file
+    ```bash
+    touch ~/.ssh/config
+    ```
+- Open `config` file and paste the following:
+    ```
+    Host github-default-ssh-profile
+        HostName github.com
+        User git
+        IdentityFile ~/.ssh/keys/default.keyfile
+        IdentitiesOnly yes
+    ```
+- Generate an SSH key and place it in `~/.ssh/keys` directory
+    ```bash
+    ssh-keygen -t rsa -b 4096 -f "~/.ssh/keys/default.keyfile"
+    ```
+- Copy your public key file and paste it on [GitHub -> Settings -> SSH and GPG keys](https://github.com/settings/keys)
+    ```bash
+    clip < ~/.ssh/keys/default.keyfile.pub
+    ```
+- Test connection to remote GitHub server using your SSH profile
+    ```bash
+    ssh -T github-default-ssh-profile
+    ```
+- *Optional:* You may also add another profile to `config` if you want to manage multiple SSH keys for different environments
+    ```
+    Host github-default-ssh-profile
+        HostName github.com
+        User git
+        IdentityFile ~/.ssh/keys/default.keyfile
+        IdentitiesOnly yes
+
+    Host just-another-profile
+        HostName bitbucket.com
+        User git
+        IdentityFile ~/.ssh/keys/just-another-profile.keyfile
+        IdentitiesOnly yes
+    ```
 
 
 ## Getting Started
@@ -54,35 +102,17 @@ Steps on how to creating a new git repository.
     ```bash
     git commit -m "Initial commit"
     ```
-- Sign-in to GitHub and [create a remote repository](https://github.com/new). Then, add it as the origin for your local repository.
+- Sign-in to GitHub and [create a remote repository](https://github.com/new). Then, add it as the origin for your local repository. Note that `github-default-ssh-profile` must correspond to the name of the an SSH profile entry you added in `~/.ssh/config` file.
     ```bash
-    git remote add origin git@github.com:<username>/repository.git
+    git remote add origin github-default-ssh-profile:<username>/repository.git
     ```
 - Verify if remote repository is added properly
     ```bash
     git remote -v 
     ```
-- Generate SSH keys if you don't have one
+- Push initial commit to the remote repository. Only use `git push -u` on first push, subsequent push should only be done with `git push` without flags.
     ```bash
-    ssh-keygen -t rsa -b 4096 -f "<username-here>@github.com.keyfile"
-    ```
-- Launch SSH agent. You have to do this every time you open a new terminal window.
-    ```bash
-    eval $(ssh-agent -s)
-    ssh-add
-    ssh-add "<username-here>@github.com.keyfile"
-    ```
-- Copy public key and paste it on [GitHub -> Settings -> SSH and GPG keys](https://github.com/settings/keys)
-    ```bash
-    clip < "<username-here>@github.com.keyfile"
-    ```
-- Test connection to remote GitHub server
-    ```bash
-    ssh -T git@github.com
-    ```
-- Push initial commit to the remote repository. Only use `git push -f -u` on first push, subsequent push should only be done with `git push` without flags.
-    ```bash
-    git push -f -u origin master
+    git push -u origin master
     ```
 - Finished! You successfully setup a new git repository for your new project.
 
