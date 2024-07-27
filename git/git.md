@@ -3,7 +3,7 @@
 # Git
 
 ## Table of Contents
-- [Setting up SSH credentials](#setting-up-ssh-credentials)
+- [Setting up SSH keys](#setting-up-ssh-keys)
 - [Getting Started](#getting-started)
 - [Basic Commands](#basic-commands)
   - [Initialize git repository](#initialize-git-repository)
