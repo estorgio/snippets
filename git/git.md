@@ -4,7 +4,7 @@
 
 ## Table of Contents
 - [Setting up SSH keys](#setting-up-ssh-keys)
-- [Getting Started](#getting-started)
+- [Creating new repository](#creating-new-repository)
 - [Basic Commands](#basic-commands)
   - [Initialize git repository](#initialize-git-repository)
   - [Get current status](#get-current-status)
@@ -71,9 +71,9 @@ Steps on setting up SSH credentials on a newly installed computer.
         IdentityFile ~/.ssh/keys/just-another-profile.keyfile
         IdentitiesOnly yes
     ```
+[[Go back]](#table-of-contents)
 
-
-## Getting Started
+## Creating new repository
 Steps on how to creating a new git repository.
 
 - Create a new directory for your project
