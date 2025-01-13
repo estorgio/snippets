@@ -2001,7 +2001,7 @@ class Foo:
 
     def __init__(self):
         # Access class properties from within class
-        Foo.count += 1
+        type(self).count += 1
 
 
 # Access class properties outside class
